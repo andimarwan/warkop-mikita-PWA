@@ -26,6 +26,13 @@
         }
         .scrollbar-none::-webkit-scrollbar { display: none; }
         .scrollbar-none { -ms-overflow-style: none; scrollbar-width: none; }
+        /* Menyembunyikan badge/banner bawaan dari Netlify Bar */
+[data-netlify-deploy-id],
+#netlify-identity-widget,
+.netlify-badge,
+iframe[src*="netlify"] {
+    display: none !important;
+}
     </style>
 </head>
 <body class="max-w-md mx-auto bg-slate-50 min-h-screen relative pb-36">
