@@ -259,36 +259,13 @@
         </div>
     </div>
 
-    <!-- SCRIPT LOGIKA APP & SERVICE WORKER -->
-    <script>
-        // --- INJEKSI & REGISTRASI SERVICE WORKER (PWA) ---
-        if ('serviceWorker' in navigator) {
-            window.addEventListener('load', () => {
-                const swCode = `
-                    const CACHE_NAME = 'warkop-mikita-v1';
-                    const ASSETS = [
-                        './',
-                        'https://cdn.tailwindcss.com',
-                        'https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap'
-                    ];
-
-                    self.addEventListener('install', (e) => {
-                        e.waitUntil(
-                            caches.open(CACHE_NAME).then((cache) => cache.addAll(ASSETS))
-                        );
-                    });
-
-                    self.addEventListener('fetch', (e) => {
-                        e.respondWith(
-                            caches.match(e.request).then((res) => res || fetch(e.request))
-                        );
-                    });
-                `;
-                const blob = new Blob([swCode], { type: 'application/javascript' });
-                const blobURL = URL.createObjectURL(blob);
-                navigator.serviceWorker.register(blobURL).catch(err => console.log('SW registration failed: ', err));
-            });
-        }
+if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+        navigator.serviceWorker.register('./sw.js')
+            .then(reg => console.log('Service Worker berhasil terdaftar:', reg.scope))
+            .catch(err => console.log('Registrasi Service Worker gagal:', err));
+    });
+}
 
         // --- LOGIKA UTAMA APLIKASI ---
         document.addEventListener('DOMContentLoaded', function() {
