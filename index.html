@@ -3,84 +3,96 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Warkop Mikita - PWA Menu</title>
+    <title>Menu Digital Warkop Mikita</title>
     
     <!-- PWA Configurations -->
     <link rel="manifest" href="manifest.json">
     <meta name="theme-color" content="#0f172a">
     <link rel="apple-touch-icon" href="icon-192.png">
-    
-    <!-- Tailwind CSS Engine -->
+
+    <!-- CDN Tailwind CSS -->
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
 </head>
-<body class="bg-slate-100 text-slate-800 font-sans pb-24">
+<body class="bg-slate-50 text-slate-800 font-sans antialiased pb-32">
 
-    <!-- Header -->
-    <header class="bg-slate-900 text-white p-4 sticky top-0 z-10 shadow-md">
+    <!-- Header / Brand -->
+    <header class="bg-slate-900 text-white p-4 sticky top-0 z-30 shadow-md">
         <div class="max-w-md mx-auto flex justify-between items-center">
             <div>
-                <h1 class="text-lg font-bold tracking-wide">Warkop Mikita</h1>
-                <p class="text-xs text-slate-400">Pesan Menu Favoritmu</p>
+                <h1 class="text-xl font-bold tracking-tight text-amber-400">Warkop Mikita</h1>
+                <p class="text-xs text-slate-400">Pesan langsung dari mejamu</p>
             </div>
-            <span class="bg-amber-500 text-slate-900 text-xs px-2 py-1 rounded font-bold">Buka</span>
+            <div class="text-right">
+                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
+                    ● Buka
+                </span>
+            </div>
         </div>
     </header>
 
     <!-- Main Container -->
     <main class="max-w-md mx-auto p-4 space-y-4">
-        
-        <!-- Form Nama Pelanggan -->
-        <section class="bg-white p-4 rounded-2xl shadow-sm border border-slate-200">
-            <label for="customerName" class="block text-xs font-bold text-slate-600 mb-1">Nama Pemesan</label>
-            <input type="text" id="customerName" placeholder="Masukkan nama Anda..." class="w-full px-3 py-2 text-sm border border-slate-300 rounded-xl focus:outline-none focus:border-slate-900">
+
+        <!-- Input Nama Pelanggan -->
+        <section class="bg-white p-4 rounded-2xl shadow-sm border border-slate-100">
+            <label for="customerName" class="block text-xs font-semibold text-slate-500 mb-1">NAMA PEMESAN / NOMOR MEJA</label>
+            <input type="text" id="customerName" placeholder="Contoh: Budi (Meja 04)" class="w-full px-3 py-2 text-sm bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-amber-500 focus:bg-white transition">
         </section>
 
-        <!-- Kategori Menu -->
-        <section class="flex space-x-2 overflow-x-auto pb-2 scrollbar-none">
-            <button class="cat-btn px-4 py-2 rounded-xl text-xs font-bold bg-slate-900 text-white transition shadow-sm flex-shrink-0" onclick="filterCategory('all', this)">Semua</button>
-            <button class="cat-btn px-4 py-2 rounded-xl text-xs font-bold bg-white text-slate-600 hover:bg-slate-200 transition shadow-sm flex-shrink-0" onclick="filterCategory('minuman', this)">Minuman</button>
-            <button class="cat-btn px-4 py-2 rounded-xl text-xs font-bold bg-white text-slate-600 hover:bg-slate-200 transition shadow-sm flex-shrink-0" onclick="filterCategory('makanan', this)">Makanan</button>
-            <button class="cat-btn px-4 py-2 rounded-xl text-xs font-bold bg-white text-slate-600 hover:bg-slate-200 transition shadow-sm flex-shrink-0" onclick="filterCategory('camilan', this)">Camilan</button>
+        <!-- Search Bar -->
+        <div class="relative">
+            <input type="text" id="searchInput" oninput="handleSearch()" placeholder="Cari kopi, mie, atau gorengan..." class="w-full pl-10 pr-4 py-2.5 text-sm bg-white border border-slate-200 rounded-xl shadow-sm focus:outline-none focus:ring-2 focus:ring-amber-500">
+            <svg class="w-4 h-4 text-slate-400 absolute left-3.5 top-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+        </div>
+
+        <!-- Filter Kategori -->
+        <section class="flex space-x-2 overflow-x-auto pb-1 scrollbar-none">
+            <button class="cat-btn px-4 py-2 rounded-xl text-xs font-bold bg-slate-900 text-white transition shadow-sm flex-shrink-0" onclick="filterCategory('all', this)">Semua Menu</button>
+            <button class="cat-btn px-4 py-2 rounded-xl text-xs font-bold bg-white text-slate-600 hover:bg-slate-100 transition shadow-sm border border-slate-200/60 flex-shrink-0" onclick="filterCategory('minuman', this)">☕ Minuman</button>
+            <button class="cat-btn px-4 py-2 rounded-xl text-xs font-bold bg-white text-slate-600 hover:bg-slate-100 transition shadow-sm border border-slate-200/60 flex-shrink-0" onclick="filterCategory('makanan', this)">🍜 Makanan</button>
+            <button class="cat-btn px-4 py-2 rounded-xl text-xs font-bold bg-white text-slate-600 hover:bg-slate-100 transition shadow-sm border border-slate-200/60 flex-shrink-0" onclick="filterCategory('camilan', this)">🍞 Camilan</button>
         </section>
 
         <!-- Daftar Menu -->
-        <section id="menuContainer" class="grid grid-cols-1 gap-3">
-            <!-- Menu Items dipanggil via JavaScript -->
+        <section id="menuContainer" class="space-y-3">
+            <!-- Menu items di-render via JS -->
         </section>
     </main>
 
-    <!-- Navigation / Floating Bottom Cart Bar -->
-    <div id="cartBar" class="fixed bottom-0 left-0 right-0 bg-white border-t border-slate-200 p-4 shadow-lg hidden">
+    <!-- Floating Bottom Bar (Keranjang) -->
+    <div id="cartBar" class="fixed bottom-0 left-0 right-0 bg-white/90 backdrop-blur-md border-t border-slate-200 p-4 shadow-lg z-20 hidden">
         <div class="max-w-md mx-auto flex justify-between items-center">
             <div>
-                <p class="text-xs text-slate-500"><span id="totalItems">0</span> Item dipilih</p>
-                <p class="text-lg font-bold text-slate-900" id="totalPrice">Rp 0</p>
+                <p class="text-xs text-slate-500 font-medium"><span id="totalItems">0</span> Item dipilih</p>
+                <p class="text-base font-extrabold text-slate-900" id="totalPrice">Rp 0</p>
             </div>
-            <button onclick="openModal()" class="bg-emerald-600 hover:bg-emerald-700 text-white text-sm font-bold px-5 py-2.5 rounded-xl transition shadow">
-                Cek Pesanan
+            <button onclick="openModal()" class="bg-amber-500 hover:bg-amber-600 active:scale-95 text-slate-900 font-bold text-sm px-5 py-2.5 rounded-xl transition shadow-md flex items-center space-x-2">
+                <span>Cek Detail Pesanan</span>
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
             </button>
         </div>
     </div>
 
-    <!-- Modal Ringkasan Pesanan -->
-    <div id="orderModal" class="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-end sm:items-center justify-center hidden">
-        <div class="bg-white w-full max-w-md rounded-t-2xl sm:rounded-2xl p-5 space-y-4 max-h-[85vh] flex flex-col">
+    <!-- Modal Ringkasan & Checkout -->
+    <div id="orderModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-end sm:items-center justify-center hidden">
+        <div class="bg-white w-full max-w-md rounded-t-3xl sm:rounded-2xl p-5 space-y-4 max-h-[85vh] flex flex-col shadow-2xl">
             <div class="flex justify-between items-center border-b pb-3">
-                <h3 class="font-bold text-slate-800">Detail Ringkasan Pesanan</h3>
-                <button onclick="closeModal()" class="text-slate-400 hover:text-slate-600 text-xl font-bold">&times;</button>
+                <h3 class="font-bold text-slate-800 text-base">Ringkasan Pesanan</h3>
+                <button onclick="closeModal()" class="text-slate-400 hover:text-slate-600 p-1 font-bold text-xl">&times;</button>
             </div>
             
-            <div id="modalCartList" class="overflow-y-auto flex-1 space-y-2 divide-y text-sm">
-                <!-- Ringkasan Cart -->
+            <div id="modalCartList" class="overflow-y-auto flex-1 space-y-3 divide-y divide-slate-100 pr-1 text-sm">
+                <!-- Rincian Cart -->
             </div>
 
-            <div class="border-t pt-3 space-y-2">
-                <div class="flex justify-between font-bold text-slate-900">
+            <div class="border-t pt-3 space-y-3">
+                <div class="flex justify-between items-center font-bold text-slate-900">
                     <span>Total Pembayaran</span>
-                    <span id="modalTotalPrice">Rp 0</span>
+                    <span id="modalTotalPrice" class="text-lg text-amber-600">Rp 0</span>
                 </div>
-                <button id="btnSendWA" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-3 rounded-xl transition flex items-center justify-center space-x-2">
-                    <span>Kirim via WhatsApp</span>
+                <button id="btnSendWA" class="w-full bg-emerald-600 hover:bg-emerald-700 active:scale-98 text-white font-bold py-3 rounded-xl transition flex items-center justify-center space-x-2 shadow-md">
+                    <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24"><path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.299.38 2.51 1.036 3.534l-.669 2.441 2.497-.655c.983.535 2.106.84 3.298.841h.004c3.18 0 5.767-2.587 5.767-5.766 0-3.18-2.587-5.761-5.765-5.761zm3.39 8.163c-.144.405-.837.774-1.17.821-.312.043-.717.063-2.029-.481-1.313-.545-2.158-1.88-2.223-1.968-.066-.088-.535-.713-.535-1.36 0-.647.339-.966.46-.1092.12-.127.262-.159.349-.159.088 0 .175.001.251.005.082.004.193-.031.302.23.116.279.394.962.428 1.033.035.07.058.153.012.245-.047.093-.07.152-.14.233-.07.081-.148.182-.211.245-.07.07-.143.146-.062.286.082.14.364.601.782.973.538.479.992.628 1.132.698.14.07.223.058.306-.035.083-.093.35-.405.443-.545.093-.14.186-.116.315-.07.129.047.822.388.964.458.142.07.237.105.272.164.035.058.035.337-.109.742z"/></svg>
+                    <span>Konfirmasi & Kirim WA</span>
                 </button>
             </div>
         </div>
@@ -88,49 +100,72 @@
 
     <!-- Application Script -->
     <script>
-        // Database Menu
         const menuData = [
-            { id: 1, name: 'Kopi Hitam Joss', category: 'minuman', price: 5000, desc: 'Kopi hitam mantap racikan khas' },
-            { id: 2, name: 'Es Teh Manis', category: 'minuman', price: 4000, desc: 'Teh segar manis pas' },
-            { id: 3, name: 'Indomie Goreng + Telur', category: 'makanan', price: 10000, desc: 'Indomie goreng pakai telur matang/setengah matang' },
-            { id: 4, name: 'Nasi Goreng Warkop', category: 'makanan', price: 13000, desc: 'Nasi goreng porsi kenyang' },
-            { id: 5, name: 'Gorengan (Isi 3)', category: 'camilan', price: 5000, desc: 'Bakwan / Tahu / Tempe goreng hangat' },
-            { id: 6, name: 'Roti Bakar Cokelat Keju', category: 'camilan', price: 10000, desc: 'Roti bakar topping cokelat keju melimpah' }
+            { id: 1, name: 'Kopi Hitam Joss', category: 'minuman', price: 5000, desc: 'Kopi hitam khas warkop dengan aroma mantap', hasOptions: true, options: ['Manis Pas', 'Sedang', 'Pahit/Tanpa Gula'] },
+            { id: 2, name: 'Es Teh Manis', category: 'minuman', price: 4000, desc: 'Es teh segar pereda dahaga', hasOptions: false },
+            { id: 3, name: 'Kopi Susu Indocafe', category: 'minuman', price: 6000, desc: 'Seduhan kopi susu hangat / es', hasOptions: true, options: ['Hangat', 'Pakai Es'] },
+            { id: 4, name: 'Indomie Goreng + Telur', category: 'makanan', price: 10000, desc: 'Indomie goreng lezat + telur matang/setengah matang', hasOptions: true, options: ['Tidak Pedas', 'Pedas Sedang', 'Pedas Mampus'] },
+            { id: 5, name: 'Indomie Kuah Soto + Telur', category: 'makanan', price: 10000, desc: 'Kuah hangat gurih menyegarkan', hasOptions: true, options: ['Tidak Pedas', 'Pedas Sedang', 'Pedas Mampus'] },
+            { id: 6, name: 'Nasi Goreng Warkop', category: 'makanan', price: 13000, desc: 'Nasi goreng porsi kenyang khas racikan warkop', hasOptions: true, options: ['Tidak Pedas', 'Sedang', 'Pedas'] },
+            { id: 7, name: 'Gorengan Warmindo (3 Pcs)', category: 'camilan', price: 5000, desc: 'Bebas pilih bakwan, tahu isi, atau tempe mendoan', hasOptions: false },
+            { id: 8, name: 'Roti Bakar Cokelat Keju', category: 'camilan', price: 10000, desc: 'Roti bakar empuk topping cokelat & keju melimpah', hasOptions: false }
         ];
 
         let cart = {};
 
-        // Render Menu
         function renderMenu(items) {
             const container = document.getElementById('menuContainer');
             container.innerHTML = '';
 
+            if(items.length === 0) {
+                container.innerHTML = `<p class="text-center text-xs text-slate-400 py-8">Menu tidak ditemukan...</p>`;
+                return;
+            }
+
             items.forEach(item => {
                 const qty = cart[item.id] ? cart[item.id].qty : 0;
+                
+                let optionsHTML = '';
+                if(item.hasOptions) {
+                    optionsHTML = `
+                        <div class="mt-2 pt-2 border-t border-slate-100 flex flex-wrap gap-1">
+                            ${item.options.map((opt, idx) => `
+                                <label class="text-[10px] bg-slate-100 text-slate-600 px-2 py-0.5 rounded-md cursor-pointer hover:bg-amber-100 hover:text-amber-800 transition">
+                                    <input type="radio" name="opt-${item.id}" value="${opt}" ${idx === 0 ? 'checked' : ''} onchange="updateOption(${item.id}, '${opt}')" class="hidden">
+                                    <span>${opt}</span>
+                                </label>
+                            `).join('')}
+                        </div>
+                    `;
+                }
+
                 container.innerHTML += `
-                    <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm flex justify-between items-center">
-                        <div class="pr-2">
-                            <h3 class="font-bold text-sm text-slate-800">${item.name}</h3>
-                            <p class="text-xs text-slate-400 mb-1">${item.desc}</p>
-                            <p class="text-sm font-bold text-slate-900">Rp ${item.price.toLocaleString('id-ID')}</p>
+                    <div class="bg-white p-3.5 rounded-2xl border border-slate-100 shadow-sm flex flex-col justify-between">
+                        <div class="flex justify-between items-start">
+                            <div class="pr-2">
+                                <h3 class="font-bold text-sm text-slate-800">${item.name}</h3>
+                                <p class="text-xs text-slate-400 mt-0.5">${item.desc}</p>
+                                <p class="text-sm font-extrabold text-amber-600 mt-1">Rp ${item.price.toLocaleString('id-ID')}</p>
+                            </div>
+                            <div class="flex items-center space-x-1.5 bg-slate-100 p-1 rounded-xl flex-shrink-0">
+                                <button onclick="updateCart(${item.id}, -1)" class="w-7 h-7 bg-white text-slate-700 rounded-lg font-bold text-sm shadow-sm flex items-center justify-center active:scale-90 transition">-</button>
+                                <span class="text-xs font-bold px-1.5">${qty}</span>
+                                <button onclick="updateCart(${item.id}, 1)" class="w-7 h-7 bg-slate-900 text-white rounded-lg font-bold text-sm shadow-sm flex items-center justify-center active:scale-90 transition">+</button>
+                            </div>
                         </div>
-                        <div class="flex items-center space-x-2 bg-slate-100 p-1 rounded-xl">
-                            <button onclick="updateCart(${item.id}, -1)" class="w-7 h-7 bg-white text-slate-700 rounded-lg font-bold text-sm shadow-sm flex items-center justify-center">-</button>
-                            <span class="text-xs font-bold px-1">${qty}</span>
-                            <button onclick="updateCart(${item.id}, 1)" class="w-7 h-7 bg-slate-900 text-white rounded-lg font-bold text-sm shadow-sm flex items-center justify-center">+</button>
-                        </div>
+                        ${optionsHTML}
                     </div>
                 `;
             });
         }
 
-        // Filter Kategori
         function filterCategory(category, element) {
             document.querySelectorAll('.cat-btn').forEach(btn => {
-                btn.className = "cat-btn px-4 py-2 rounded-xl text-xs font-bold bg-white text-slate-600 hover:bg-slate-200 transition shadow-sm flex-shrink-0";
+                btn.className = "cat-btn px-4 py-2 rounded-xl text-xs font-bold bg-white text-slate-600 hover:bg-slate-100 transition shadow-sm border border-slate-200/60 flex-shrink-0";
             });
             element.className = "cat-btn px-4 py-2 rounded-xl text-xs font-bold bg-slate-900 text-white transition shadow-sm flex-shrink-0";
 
+            document.getElementById('searchInput').value = '';
             if (category === 'all') {
                 renderMenu(menuData);
             } else {
@@ -138,24 +173,53 @@
             }
         }
 
-        // Update Keranjang
+        function handleSearch() {
+            const query = document.getElementById('searchInput').value.toLowerCase();
+            const filtered = menuData.filter(item => item.name.toLowerCase().includes(query) || item.desc.toLowerCase().includes(query));
+            renderMenu(filtered);
+        }
+
+        function updateOption(id, selectedOpt) {
+            if (cart[id]) {
+                cart[id].selectedOption = selectedOpt;
+            }
+        }
+
         function updateCart(id, change) {
             const item = menuData.find(m => m.id === id);
+            
             if (!cart[id]) {
-                if (change > 0) cart[id] = { ...item, qty: change };
+                if (change > 0) {
+                    let defaultOpt = item.hasOptions ? item.options[0] : null;
+                    const selectedRadio = document.querySelector(`input[name="opt-${id}"]:checked`);
+                    if(selectedRadio) defaultOpt = selectedRadio.value;
+
+                    cart[id] = { ...item, qty: change, selectedOption: defaultOpt };
+                }
             } else {
                 cart[id].qty += change;
                 if (cart[id].qty <= 0) delete cart[id];
             }
-            
-            // Re-render UI
-            const activeCategoryBtn = document.querySelector('.cat-btn.bg-slate-900');
-            renderMenu(activeCategoryBtn.textContent.toLowerCase() === 'semua' ? menuData : menuData.filter(m => m.category === activeCategoryBtn.textContent.toLowerCase()));
-            
+
+            const activeBtn = document.querySelector('.cat-btn.bg-slate-900');
+            const currentCat = activeBtn ? activeBtn.textContent.toLowerCase() : 'semua menu';
+            const searchVal = document.getElementById('searchInput').value;
+
+            if(searchVal) {
+                handleSearch();
+            } else if (currentCat.includes('minuman')) {
+                renderMenu(menuData.filter(m => m.category === 'minuman'));
+            } else if (currentCat.includes('makanan')) {
+                renderMenu(menuData.filter(m => m.category === 'makanan'));
+            } else if (currentCat.includes('camilan')) {
+                renderMenu(menuData.filter(m => m.category === 'camilan'));
+            } else {
+                renderMenu(menuData);
+            }
+
             updateCartBar();
         }
 
-        // Floating Cart Bar Update
         function updateCartBar() {
             const cartBar = document.getElementById('cartBar');
             let totalItems = 0;
@@ -175,11 +239,10 @@
             }
         }
 
-        // Modal Controls
         function openModal() {
             const name = document.getElementById('customerName').value.trim();
             if (!name) {
-                alert('Silakan masukkan nama Anda terlebih dahulu!');
+                alert('Mohon isi Nama Pemesan / Nomor Meja terlebih dahulu!');
                 document.getElementById('customerName').focus();
                 return;
             }
@@ -191,11 +254,16 @@
             Object.values(cart).forEach(item => {
                 const subtotal = item.price * item.qty;
                 totalPrice += subtotal;
+                const optText = item.selectedOption ? `<span class="text-[11px] text-amber-700 bg-amber-50 px-1.5 py-0.5 rounded font-medium">${item.selectedOption}</span>` : '';
+                
                 modalList.innerHTML += `
                     <div class="pt-2 flex justify-between items-center">
                         <div>
                             <p class="font-bold text-slate-800">${item.name}</p>
-                            <p class="text-xs text-slate-500">${item.qty} x Rp ${item.price.toLocaleString('id-ID')}</p>
+                            <div class="flex items-center space-x-2 mt-0.5">
+                                <span class="text-xs text-slate-500">${item.qty}x @ Rp ${item.price.toLocaleString('id-ID')}</span>
+                                ${optText}
+                            </div>
                         </div>
                         <span class="font-bold text-slate-800">Rp ${subtotal.toLocaleString('id-ID')}</span>
                     </div>
@@ -210,59 +278,57 @@
             document.getElementById('orderModal').classList.add('hidden');
         }
 
-        // WhatsApp Integration + Geolocation GPS
         document.getElementById('btnSendWA').addEventListener('click', () => {
             const name = document.getElementById('customerName').value.trim();
             const phoneAdmin = "6281234567890"; // Ganti dengan nomor WhatsApp Warkop kamu
 
             if (navigator.geolocation) {
                 navigator.geolocation.getCurrentPosition(
-                    position => {
-                        const lat = position.coords.latitude;
-                        const lng = position.coords.longitude;
-                        sendWA(name, phoneAdmin, `https://maps.google.com/?q=${lat},${lng}`);
+                    pos => {
+                        const loc = `https://maps.google.com/?q=${pos.coords.latitude},${pos.coords.longitude}`;
+                        sendWA(name, phoneAdmin, loc);
                     },
-                    error => {
-                        sendWA(name, phoneAdmin, "Lokasi tidak diizinkan/akses dibatasi.");
+                    err => {
+                        sendWA(name, phoneAdmin, "Lokasi GPS tidak diizinkan");
                     }
                 );
             } else {
-                sendWA(name, phoneAdmin, "Device tidak mendukung GPS.");
+                sendWA(name, phoneAdmin, "Device tidak mendukung GPS");
             }
         });
 
         function sendWA(name, phone, locationText) {
-            let message = `*PESANAN WARKOP MIKITA*\n`;
-            message += `-------------------------\n`;
-            message += `*Nama:* ${name}\n`;
-            message += `*Lokasi:* ${locationText}\n\n`;
-            message += `*Rincian Pesanan:*\n`;
+            let msg = `*PESANAN WARKOP MIKITA*\n`;
+            msg += `-------------------------\n`;
+            msg += `*Pemesan:* ${name}\n`;
+            msg += `*Lokasi GPS:* ${locationText}\n\n`;
+            msg += `*Rincian Pesanan:*\n`;
 
             let totalPrice = 0;
             Object.values(cart).forEach(item => {
                 const subtotal = item.price * item.qty;
                 totalPrice += subtotal;
-                message += `- ${item.name} (${item.qty}x) = Rp ${subtotal.toLocaleString('id-ID')}\n`;
+                const opt = item.selectedOption ? ` (${item.selectedOption})` : '';
+                msg += `- ${item.name}${opt} [${item.qty}x] = Rp ${subtotal.toLocaleString('id-ID')}\n`;
             });
 
-            message += `\n*Total:* Rp ${totalPrice.toLocaleString('id-ID')}\n`;
-            message += `-------------------------\n`;
-            message += `Mohon segera diproses ya, terima kasih!`;
+            msg += `\n*Total:* Rp ${totalPrice.toLocaleString('id-ID')}\n`;
+            msg += `-------------------------\n`;
+            msg += `Mohon diproses, terima kasih!`;
 
-            const encodedURL = `https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
-            window.open(encodedURL, '_blank');
+            window.open(`https://wa.me/${phone}?text=${encodeURIComponent(msg)}`, '_blank');
         }
 
-        // Register Service Worker untuk PWA
+        // Service Worker Registration for PWA
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
                 navigator.serviceWorker.register('sw.js')
-                    .then(reg => console.log('Service Worker Registered!', reg))
-                    .catch(err => console.error('Service Worker Error:', err));
+                    .then(reg => console.log('PWA Registered successfully!', reg))
+                    .catch(err => console.error('PWA Registration failed:', err));
             });
         }
 
-        // Inisialisasi Pertama
+        // Init Render
         renderMenu(menuData);
     </script>
 </body>
