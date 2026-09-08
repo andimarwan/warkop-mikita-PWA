@@ -1,20 +1,22 @@
 {
-  "short_name": "Mikita",
-  "name": "Warkop Mikita Order",
+  "name": "Warkop Mikita",
+  "short_name": "WarkopMikita",
+  "description": "Aplikasi Pemesanan Menu Warkop Mikita",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#f8fafc",
+  "theme_color": "#0f172a",
+  "orientation": "portrait",
   "icons": [
     {
       "src": "icon-192.png",
-      "type": "image/png",
-      "sizes": "192x192"
+      "sizes": "192x192",
+      "type": "image/png"
     },
     {
       "src": "icon-512.png",
-      "type": "image/png",
-      "sizes": "512x512"
+      "sizes": "512x512",
+      "type": "image/png"
     }
-  ],
-  "start_url": "./index.html",
-  "background_color": "#0f172a",
-  "theme_color": "#0f172a",
-  "display": "standalone"
+  ]
 }
